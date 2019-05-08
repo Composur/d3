@@ -19,6 +19,10 @@
             font-family: sans-serif;
             font-size: 11px;
         }
+
+        .MyRect {
+            fill: #625C53;
+        }
     </style>
 </head>
 
@@ -39,27 +43,34 @@
         <li></li>
     </ul>
     <script>
-        const { log } = console
+        const {
+            log
+        } = console
         /*
             1.定义一个画布
         */
-        var width = 400;  //画布的宽度
-        var height = 400;   //画布的高度
-        var padding = { left: 30, right: 30, top: 20, bottom: 20 };//画布周边的空白
-        var svg = d3.select("body")     //选择文档中的body元素
-            .append("svg")          //添加一个svg元素
-            .attr("width", width)       //设定宽度
-            .attr("height", height).style('border', '1px solid red');    //设定高度
+        var width = 400; //画布的宽度
+        var height = 400; //画布的高度
+        var padding = {
+            left: 30,
+            right: 30,
+            top: 20,
+            bottom: 20
+        }; //画布周边的空白
+        var svg = d3.select("body") //选择文档中的body元素
+            .append("svg") //添加一个svg元素
+            .attr("width", width) //设定宽度
+            .attr("height", height).style('border', '1px solid red'); //设定高度
         /*
             2.定义数据和比例尺
             2.1 X轴序数比例尺 Y轴线性比例尺
         */
         var dataset = [10, 20, 30, 40, 33, 24, 12, 5]; //定义一个数组
-        var xScale = d3.scale.ordinal()//x轴比例尺
-            .domain(d3.range(dataset.length))//值域
-            .rangeRoundBands([0, width - padding.left - padding.right])//值域的范围
+        var xScale = d3.scale.ordinal() //x轴比例尺
+            .domain(d3.range(dataset.length)) //值域
+            .rangeRoundBands([0, width - padding.left - padding.right]) //值域的范围
 
-        var yScale = d3.scale.linear()//Y轴比例尺
+        var yScale = d3.scale.linear() //Y轴比例尺
             .domain([0, d3.max(dataset)])
             .range([height - padding.top - padding.bottom, 0])
 
@@ -86,6 +97,11 @@
             .attr("x", function (d, i) {
                 return xScale(i) + rectPadding / 2;
             })
+            // .transition()
+            // .delay(function (d, i) {
+            //     return i * 200
+            // })
+            // .ease('bounce')
             .attr("y", function (d) {
                 return yScale(d);
             })
@@ -93,7 +109,22 @@
             .attr("height", function (d) {
                 return height - padding.top - padding.bottom - yScale(d);
             })
-            .attr('fill','steelblue');
+            .attr('fill', 'steelblue')
+            .on("mouseover", function (d, i) {
+                console.log(this)
+                d3.select(this)
+                    .attr("fill", "yellow");
+            })
+            .on("mouseout", function (d, i) {
+                d3.select(this)
+                    .transition()
+                    .duration(500)
+                    .attr("fill", "steelblue");
+            });
+
+
+    
+		
         //添加文字元素
         var texts = svg.selectAll(".MyText")
             .data(dataset)
@@ -113,9 +144,15 @@
             .attr("dy", function (d) {
                 return 20;
             })
-            .text(function (d) {
-                return d;
-            }).attr('fill','#fff');
+            .transition()
+            .delay(function (d, i) {
+                return i * 300
+            })
+            .ease("bounce")
+            .text(function (d, i) {
+                return d
+            })
+            .attr('fill', '#fff');
         //添加x轴
         svg.append("g")
             .attr("class", "axis")

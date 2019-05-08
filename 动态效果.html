@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>d3</title>
+    <script src="https://cdn.bootcss.com/d3/3.5.17/d3.js"></script>
+</head>
+
+<body>
+    <script>
+        var svg = d3.select('body')
+            .append('svg')
+            .attr({
+                width: 400,
+                height: 600,
+            }).style({
+                border: '1px solid red'
+            })
+
+        var circle1 = svg.append('circle')
+            .attr("cx", 150)
+            .attr("cy", 100)
+            .attr("r", 45)
+            .style("fill", "green")
+            .transition()
+            .duration(1000)
+            .attr("cx", 300)
+        var text1=svg.append('text')
+            .attr("x", 30)
+            .attr("y", 100)
+            .style('color','#fff')   
+            .text('77')
+           
+
+        var circle2 = svg.append('circle')
+            .attr("cx", 200)
+            .attr("cy", 100)
+            .attr("r", 35)
+            .style("fill", "red")
+            .transition()
+            .duration(2000)
+            .attr("cx", 200)
+        var circle3 = svg.append('circle')
+            .attr("cx", 250)
+            .attr("cy", 100)
+            .attr("r", 35)
+            .style("fill", "#E9DB39")
+            .transition()
+            .duration(3000)
+            .attr("cx", 130)
+            .attr("r", 15)
+            .append('text')
+            .text('fff')
+            .style('color','red')
+
+
+            
+    </script>
+</body>
+
+</html>
